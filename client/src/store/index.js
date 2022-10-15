@@ -211,6 +211,44 @@ export const useGlobalStore = () => {
         });
     }
 
+    store.createNewList = function () {
+        // async function asyncCreateNewList(){
+        //     let response = await api.getAllPlaylists();
+        // }
+        // asyncCreateNewList();
+    }
+
+    //ADD SONG FUNCTION
+    store.addNewSong = function (){
+        //GET THE CURRENTLIST
+        async function asyncAddNewSong() {
+            let response = await api.getPlaylistById(store.currentList._id);
+            if (response.data.success) {
+                let playlist = response.data.playlist;
+                let newSong = {title: "Untitled", artist: "Unknown", youTubeId: "dQw4w9WgXcQ"}
+                playlist.songs.push(newSong);
+                async function updateList(playlist) {
+                    response = await api.updatePlaylistById(playlist._id, playlist);
+                    if(response.data.success) {
+                        async function getPlaylistById () {
+                            response = await api.getPlaylistById(store.currentList._id);
+                            if(response.data.success){
+                                let newPlaylist = response.data.playlist;
+                                storeReducer({
+                                    type: GlobalStoreActionType.SET_CURRENT_LIST,
+                                    payload: newPlaylist
+                                });
+                            }
+                        }
+                        getPlaylistById();
+                    }
+                }
+                updateList(playlist);
+            }
+        }
+        asyncAddNewSong();
+    }
+
     // THIS GIVES OUR STORE AND ITS REDUCER TO ANY COMPONENT THAT NEEDS IT
     return { store, storeReducer };
 }
