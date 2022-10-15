@@ -60,8 +60,8 @@ export const useGlobalStore = () => {
             // CREATE A NEW LIST
             case GlobalStoreActionType.CREATE_NEW_LIST: {
                 return setStore({
-                    idNamePairs: store.idNamePairs,
-                    currentList: payload,
+                    idNamePairs: payload.idNamePairs,
+                    currentList: payload.playlist,
                     newListCounter: store.newListCounter + 1,
                     listNameActive: false
                 })
@@ -212,10 +212,28 @@ export const useGlobalStore = () => {
     }
 
     store.createNewList = function () {
-        // async function asyncCreateNewList(){
-        //     let response = await api.getAllPlaylists();
-        // }
-        // asyncCreateNewList();
+        async function asyncCreateNewList(){
+            let newList = {name: "Untitled" + (store.idNamePairs.length + 1) , songs: []}
+            let response = await api.createNewPlaylist(newList);
+            let playlist = response.data.playlist;
+            if (response.data.success) {
+                async function getListPairs(playlist){
+                    response = await api.getPlaylistPairs();
+                    if(response.data.success){
+                        let pairArray = response.data.idNamePairs;
+                        storeReducer({
+                            type: GlobalStoreActionType.CREATE_NEW_LIST,
+                            payload: {
+                                idNamePairs: pairArray,
+                                playlist: playlist
+                            }
+                        })
+                    }
+                }
+                getListPairs(playlist);
+            }
+        }
+        asyncCreateNewList();
     }
 
     //ADD SONG FUNCTION
