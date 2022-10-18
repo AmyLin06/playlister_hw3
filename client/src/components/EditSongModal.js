@@ -6,6 +6,17 @@ function EditSongModal(props){
     const {store} = useContext(GlobalStoreContext);
     store.history = useHistory();
 
+    function handleCancel(event) {
+        event.stopPropagation();
+        store.closeModal("edit-song-modal");
+    }
+
+    function handleConfirm(event) {
+        event.stopPropagation();
+        // store.editSong();
+        store.addEditSongTransaction()
+        store.closeModal("edit-song-modal");
+    }
 
     let editSongDialogBox = 
     <div
@@ -34,20 +45,16 @@ function EditSongModal(props){
                     <input type="button" 
                         id="edit-song-confirm-button" 
                         className="modal-button" 
-                        onClick={this.props.editSongCallback}
+                        onClick={handleConfirm}
                         value='Confirm' />
                     <input type="button" 
                         id="edit-song-cancel-button" 
                         className="modal-button" 
-                        onClick={hideEditSongModalCallback}
+                        onClick={handleCancel}
                         value='Cancel' />
                 </div>
             </div>
     </div>
-
-    if(store.modalActive()){
-        document.getElementById("edit-song-modal").classList.add("is-visible");
-    }
 
     return(editSongDialogBox);
 }

@@ -8,15 +8,13 @@ function SongCard(props) {
     let cardClass = "list-card unselected-list-card";
 
     function handleRemoveSong(event) {
-        if(window.confirm ("Are you sure you wish to permanently remove " + song.title + " from the playlist?")){
-            store.deleteSong(index);
-        }else{
-            return
-        }
+        store.markSong(index);
+        store.showModal("remove-song-modal");
     }
 
     function handleEditSong(event) {
-        store.markSong(song);
+        store.markSong(index);
+        store.showModal("edit-song-modal");
     }
 
     function handleDragStart(event) {
@@ -40,7 +38,8 @@ function SongCard(props) {
         let targetIndex = index;
         let sourceIndex = Number(event.dataTransfer.getData("song"));
 
-        store.moveSong(sourceIndex, targetIndex);
+        // store.moveSong(sourceIndex, targetIndex);
+        store.addMoveSongTransaction(sourceIndex, targetIndex);
     }
 
     return (

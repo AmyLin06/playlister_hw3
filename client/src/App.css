@@ -90,7 +90,7 @@ body {
 }
 
 #playlister-statusbar {
-  position: absolute;
+  position: fix;
   left: 0%;
   top: 90%;
   width: 100%;
