@@ -15,12 +15,47 @@ function SongCard(props) {
         }
     }
 
+    function handleEditSong(event) {
+        store.markSong(song);
+    }
+
+    function handleDragStart(event) {
+        event.dataTransfer.setData("song", index);
+    }
+
+    function handleDragOver(event) {
+        event.preventDefault();
+    }
+
+    function handleDragEnter(event) {
+        event.preventDefault();
+    }
+
+    function handleDragLeave(event) {
+        event.preventDefault();
+    }
+
+    function handleDrop(event) {
+        event.preventDefault();
+        let targetIndex = index;
+        let sourceIndex = Number(event.dataTransfer.getData("song"));
+
+        store.moveSong(sourceIndex, targetIndex);
+    }
+
     return (
         <div
             key={index}
             id={'song-' + index + '-card'}
             className={cardClass}
-        >
+            onDoubleClick={handleEditSong}
+            onDragStart={handleDragStart}
+            onDragOver={handleDragOver}
+            onDragEnter={handleDragEnter}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+            draggable="true"
+        >   
             {index + 1}.
             <a
                 id={'song-' + index + '-link'}

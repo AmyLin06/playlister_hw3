@@ -16,6 +16,7 @@ const App = () => {
                 <Route path="/playlist/:id" exact component={PlaylistCards} />
             </Switch>
             <Statusbar />
+            {/* <EditSongModal /> */}
         </Router>
     )
 }

@@ -1,6 +1,8 @@
 import { createContext, useState } from 'react'
 import jsTPS from '../common/jsTPS'
 import api from '../api'
+// import EditSongModal from './components'
+
 export const GlobalStoreContext = createContext({});
 /*
     This is our global data store. Note that it uses the Flux design pattern,
@@ -18,6 +20,7 @@ export const GlobalStoreActionType = {
     LOAD_ID_NAME_PAIRS: "LOAD_ID_NAME_PAIRS",
     SET_CURRENT_LIST: "SET_CURRENT_LIST",
     SET_LIST_NAME_EDIT_ACTIVE: "SET_LIST_NAME_EDIT_ACTIVE",
+    MARK_SONG: "MARK_SONG"
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -32,7 +35,9 @@ export const useGlobalStore = () => {
         currentList: null,
         newListCounter: 0,
         listNameActive: false,
-        markDeleteList: null
+        markDeleteList: null,
+        markedSong: null,
+        modalActive: false
     });
 
     // HERE'S THE DATA STORE'S REDUCER, IT MUST
@@ -102,6 +107,14 @@ export const useGlobalStore = () => {
                     newListCounter: store.newListCounter,
                     listNameActive: true
                 });
+            }
+            //MARK SONG FOR DELETE & EDIT
+            case GlobalStoreActionType.MARK_SONG: {
+                return setStore({
+                    modalActive: true,
+                    markedSong: payload,
+                    currentList: store.currentList
+                })
             }
             default:
                 return store;
@@ -212,6 +225,7 @@ export const useGlobalStore = () => {
         });
     }
 
+    //ADD LIST FUNCTION
     store.createNewList = function () {
         async function asyncCreateNewList(){
             let newList = {name: "Untitled" + (store.idNamePairs.length + 1) , songs: []}
@@ -290,7 +304,7 @@ export const useGlobalStore = () => {
         asyncDeleteList(id);
     }
 
-
+    //DELETE SONG FUNCTION
     store.deleteSong = function (index){
         //GET THE CURRENTLIST
         async function asyncDeleteSong(index) {
@@ -318,6 +332,56 @@ export const useGlobalStore = () => {
             }
         }
         asyncDeleteSong(index);
+    }
+
+    //EDIT SONG
+    store.markSong = function (song){
+        storeReducer({
+            type: GlobalStoreActionType.MARK_SONG,
+            payload: song
+        })
+    }
+
+    store.isModalOpen = function () {
+        return store.modalActive;
+    }
+
+    // MOVE SONG
+    store.moveSong = function(start, end) {
+        async function asyncMoveSong(start, end) {
+            let response = await api.getPlaylistById(store.currentList._id);
+            if(response.data.success) {
+                const list = response.data.playlist;
+                if (start < end) {
+                    let temp = list.songs[start];
+                    for (let i = start; i < end; i++) {
+                        list.songs[i] = list.songs[i + 1];
+                    }
+                    list.songs[end] = temp;
+                }
+                else if (start > end) {
+                    let temp = list.songs[start];
+                    for (let i = start; i > end; i--) {
+                        list.songs[i] = list.songs[i - 1];
+                    }
+                    list.songs[end] = temp;
+                }
+                async function updateList(list) {
+                    console.log("updating")
+                    let response = await api.updatePlaylistById(list._id, list);
+                    if(response.data.success) {
+                        let response = await api.getPlaylistPairs();
+                        storeReducer({
+                            type: GlobalStoreActionType.SET_CURRENT_LIST,
+                            payload: list
+                        });
+                    }
+                }
+                updateList(list);
+                // store.setCurrentList(playlist._id)
+            }
+        }
+        asyncMoveSong(start, end);
     }
 
     // THIS GIVES OUR STORE AND ITS REDUCER TO ANY COMPONENT THAT NEEDS IT
