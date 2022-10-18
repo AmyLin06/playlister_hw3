@@ -22,6 +22,7 @@ function EditToolbar() {
     }
     function handleClose() {
         history.push("/");
+        store.clearTransactionStack();
         store.closeCurrentList();
     }
     function handleAddSong() {
@@ -38,7 +39,7 @@ function EditToolbar() {
             <input
                 type="button"
                 id='add-song-button'
-                disabled={editStatus || store.modalActive}
+                disabled={editStatus || store.modalActive || store.currentList == null}
                 value="+"
                 className={enabledButtonClass}
                 onClick={handleAddSong}
@@ -46,7 +47,7 @@ function EditToolbar() {
             <input
                 type="button"
                 id='undo-button'
-                disabled={editStatus || store.modalActive || !store.hasUndoTransaction()}
+                disabled={editStatus || store.modalActive || !store.hasUndoTransaction() || store.currentList == null}
                 value="⟲"
                 className={enabledButtonClass}
                 onClick={handleUndo}
@@ -55,7 +56,7 @@ function EditToolbar() {
             <input
                 type="button"
                 id='redo-button'
-                disabled={editStatus || store.modalActive || !store.hasRedoTransaction()}
+                disabled={editStatus || store.modalActive || !store.hasRedoTransaction() || store.currentList == null}
                 value="⟳"
                 className={enabledButtonClass}
                 onClick={handleRedo}
@@ -64,7 +65,7 @@ function EditToolbar() {
             <input
                 type="button"
                 id='close-button'
-                disabled={editStatus || store.modalActive}
+                disabled={editStatus || store.modalActive || store.currentList == null}
                 value="&#x2715;"
                 className={enabledButtonClass}
                 onClick={handleClose}

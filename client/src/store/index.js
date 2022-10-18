@@ -175,6 +175,10 @@ export const useGlobalStore = () => {
         });
     }
 
+    store.clearTransactionStack = function () {
+        tps.clearAllTransactions();
+    }
+
     // THIS FUNCTION LOADS ALL THE ID, NAME PAIRS SO WE CAN LIST ALL THE LISTS
     store.loadIdNamePairs = function () {
         async function asyncLoadIdNamePairs() {
