@@ -7,6 +7,7 @@ import Statusbar from './Statusbar'
 import PlaylistCards from './PlaylistCards'
 import EditSongModal from './EditSongModal'
 import DeleteSongModal from './DeleteSongModal'
+import DeleteListModal from './DeleteListModal'
 /*
     This serves as a module so that we can import
     all the other components as we wish.
@@ -21,4 +22,5 @@ export {    Banner,
             Statusbar, 
             PlaylistCards,
             EditSongModal,
-            DeleteSongModal}
+            DeleteSongModal,
+            DeleteListModal}

@@ -9,7 +9,7 @@ function DeleteSongModal(props){
     function handleConfirmRemoveSong(event){
         event.stopPropagation();
         // store.editSong();
-        console.log("DELETE TEST" , store.markedIndex);
+        // console.log("DELETE TEST" , store.markedIndex);
         store.addDeleteSongTransaction(store.markedIndex);
         store.closeModal("remove-song-modal");
     }
@@ -20,6 +20,10 @@ function DeleteSongModal(props){
     }
 
     // let songName = store.currentList.songs[store.markedIndex];
+    // let songName = "";
+    // if(store.currentList != null && store.markedIndex != null){
+    //     songName = store.currentList.songs[store.markedIndex].title;
+    // }
 
     let deleteSongDialogBox = 
     <div
@@ -33,7 +37,7 @@ function DeleteSongModal(props){
             </div>
             <div className="modal-center">
                 <div className="modal-center-content">
-                    Are you sure you wish to permanently remove from the playlist?
+                    Are you sure you wish to permanently remove song from the playlist?
                 </div>
             </div>
             <div className="modal-south">

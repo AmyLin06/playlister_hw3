@@ -91,7 +91,9 @@ export const useGlobalStore = () => {
                     idNamePairs: store.idNamePairs,
                     currentList: null,
                     newListCounter: store.newListCounter,
-                    listNameActive: false
+                    listNameActive: false,
+                    markDeleteList: payload.idNamePair,
+                    modalActive: payload.modalBool
                 });
             }
             // UPDATE A LIST
@@ -166,6 +168,7 @@ export const useGlobalStore = () => {
 
     // THIS FUNCTION PROCESSES CLOSING THE CURRENTLY LOADED LIST
     store.closeCurrentList = function () {
+        // tps.clearAllTransactions();
         storeReducer({
             type: GlobalStoreActionType.CLOSE_CURRENT_LIST,
             payload: {}
@@ -220,6 +223,14 @@ export const useGlobalStore = () => {
     }
     store.redo = function () {
         tps.doTransaction();
+    }
+
+    store.hasUndoTransaction = function () {
+        return tps.hasTransactionToUndo();
+    }
+
+    store.hasRedoTransaction = function () {
+        return tps.hasTransactionToRedo();
     }
 
     // THIS FUNCTION ENABLES THE PROCESS OF EDITING A LIST NAME
@@ -291,6 +302,18 @@ export const useGlobalStore = () => {
             }
         }
         asyncAddNewSong();
+    }
+
+    //MARK LIST FOR DELETION
+    store.markListforDeletion = function(idNamePair) {
+        let modalStatus = !store.modalActive;
+        storeReducer({
+            type: GlobalStoreActionType.MARK_LIST_FOR_DELETION,
+            payload: {
+                idNamePair: idNamePair,
+                modalBool: modalStatus,
+            }
+        });
     }
 
     //FUNCTION TO DELETE LIST
@@ -372,6 +395,18 @@ export const useGlobalStore = () => {
                 index: null,
                 modalBool: modalStatus,
                 currentList: store.currentList
+            }
+        });
+    }
+
+    store.closeListModal = function (){
+        document.getElementById("delete-list-modal").classList.remove("is-visible");
+        let modalStatus = !store.modalActive;
+        storeReducer({
+            type: GlobalStoreActionType.MARK_LIST_FOR_DELETION,
+            payload: {
+                idNamePair: null,
+                modalBool: modalStatus,
             }
         });
     }

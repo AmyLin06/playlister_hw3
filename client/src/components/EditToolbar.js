@@ -12,6 +12,7 @@ function EditToolbar() {
     const history = useHistory();
 
     let enabledButtonClass = "playlister-button";
+    let undoClass = "playlister-button";
 
     function handleUndo() {
         store.undo();
@@ -37,7 +38,7 @@ function EditToolbar() {
             <input
                 type="button"
                 id='add-song-button'
-                disabled={editStatus}
+                disabled={editStatus || store.modalActive}
                 value="+"
                 className={enabledButtonClass}
                 onClick={handleAddSong}
@@ -45,23 +46,25 @@ function EditToolbar() {
             <input
                 type="button"
                 id='undo-button'
-                disabled={editStatus}
+                disabled={editStatus || store.modalActive || !store.hasUndoTransaction()}
                 value="⟲"
                 className={enabledButtonClass}
                 onClick={handleUndo}
+                // disabled={store.hasUndoTransaction}
             />
             <input
                 type="button"
                 id='redo-button'
-                disabled={editStatus}
+                disabled={editStatus || store.modalActive || !store.hasRedoTransaction()}
                 value="⟳"
                 className={enabledButtonClass}
                 onClick={handleRedo}
+                // disabled={store.hasRedoTransaction}
             />
             <input
                 type="button"
                 id='close-button'
-                disabled={editStatus}
+                disabled={editStatus || store.modalActive}
                 value="&#x2715;"
                 className={enabledButtonClass}
                 onClick={handleClose}

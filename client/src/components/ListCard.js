@@ -52,12 +52,9 @@ function ListCard(props) {
     }
 
     function handleDeleteList(event) {
-        // console.log("yesytestetst" + idNamePair._id);
-        if(window.confirm ("Are you sure you wish to permanently delete the" + idNamePair.name + " playlist?")){
-            store.deleteList(idNamePair._id);
-        }else{
-            return
-        }
+        // event.stopPropagation();
+        store.markListforDeletion(idNamePair);
+        store.showModal("delete-list-modal");
     }
 
     let selectClass = "unselected-list-card";

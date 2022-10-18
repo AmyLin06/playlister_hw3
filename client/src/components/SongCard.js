@@ -15,6 +15,10 @@ function SongCard(props) {
     function handleEditSong(event) {
         store.markSong(index);
         store.showModal("edit-song-modal");
+    
+        document.getElementById("edit-song-title").value = song.title;
+        document.getElementById("edit-song-artist").value = song.artist;
+        document.getElementById("edit-song-youTubeId").value = song.youTubeId;
     }
 
     function handleDragStart(event) {
