@@ -90,7 +90,7 @@ body {
 }
 
 #playlister-statusbar {
-  position: fix;
+  /* position: fix; */
   left: 0%;
   top: 90%;
   width: 100%;
@@ -103,6 +103,16 @@ body {
 }
 
 #add-list-button {
+   /* position: fix; */
+   left: 0%;
+   top: 90%;
+   width: 100%;
+   height: 10%;
+   background-color: silver;
+   display:flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 36pt;
   float:left;
 }
 

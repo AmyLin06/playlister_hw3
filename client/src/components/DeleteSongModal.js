@@ -20,10 +20,10 @@ function DeleteSongModal(props){
     }
 
     // let songName = store.currentList.songs[store.markedIndex];
-    // let songName = "";
-    // if(store.currentList != null && store.markedIndex != null){
-    //     songName = store.currentList.songs[store.markedIndex].title;
-    // }
+    let songName = "";
+    if(store.currentList != null && store.markedIndex != null){
+        songName = store.currentList.songs[store.markedIndex].title;
+    }
 
     let deleteSongDialogBox = 
     <div
@@ -37,7 +37,7 @@ function DeleteSongModal(props){
             </div>
             <div className="modal-center">
                 <div className="modal-center-content">
-                    Are you sure you wish to permanently remove this song from the playlist?
+                    Are you sure you wish to permanently remove {songName} this song from the playlist?
                 </div>
             </div>
             <div className="modal-south">

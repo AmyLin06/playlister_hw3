@@ -18,6 +18,10 @@ function DeleteListModal(props) {
         store.closeListModal();
     }
 
+    let listName = "";
+    if(store.currentList == null && store.markDeleteList != null){
+        listName = store.markDeleteList.name;
+    }
 
     let deleteListDialogBox = 
         <div
@@ -26,11 +30,11 @@ function DeleteListModal(props) {
             data-animation="slideInOutLeft">
             <div className="modal-root" id='verify-delete-list-root'>
                 <div className="modal-north">
-                Delete playlist?
+                Delete Playlist?
                 </div>
                 <div className="modal-center">
                     <div className="modal-center-content">
-                        Are you sure you wish to permanently delete this playlist?
+                        Are you sure you wish to permanently delete {listName} playlist?
                     </div>
                 </div>
                 <div className="modal-south">
