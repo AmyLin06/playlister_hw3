@@ -37,7 +37,7 @@ function DeleteSongModal(props){
             </div>
             <div className="modal-center">
                 <div className="modal-center-content">
-                    Are you sure you wish to permanently remove song from the playlist?
+                    Are you sure you wish to permanently remove this song from the playlist?
                 </div>
             </div>
             <div className="modal-south">

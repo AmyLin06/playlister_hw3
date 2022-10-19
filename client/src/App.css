@@ -171,11 +171,28 @@ input {
   opacity: 0;
   transition: all 0.35s ease-in;
   font-family: var(--font-primary);
+  /* background-color: #669966; */
 }
 
 .modal.is-visible {
   visibility: visible;
   opacity: 1;
+}
+
+.modal-root {
+  position: relative;
+  max-width: 1200vw;
+  max-height: 600vh;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  background: var(--swatch-complement);
+  cursor: default;
+  border-width: 2px;
+  border-color: black;
+  border-style: solid;
+  box-shadow: 5px 10px #888888;
+  background-color:silver;
 }
 
 .modal-dialog {
